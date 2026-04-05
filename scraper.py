@@ -35,25 +35,25 @@ def update_intel():
         </div>
         '''
     
-    # Read the current index.html
     try:
         with open('index.html', 'r') as f:
             content = f.read()
 
+        # THESE MARKERS MUST MATCH THE ONES IN YOUR INDEX.HTML
         start, end = '', ''
         
         if start in content and end in content:
             new_content = content.split(start)[0] + start + news_html + end + content.split(end)[1]
             
-            # Write the updated content back to index.html
             with open('index.html', 'w') as f:
                 f.write(new_content)
             print("Successfully updated market intel.")
         else:
-            print("Error: Could not find the NEWS_START/END markers in index.html")
+            print("Error: Could not find the markers in index.html")
     except Exception as e:
         print(f"Error: {e}")
 
 if __name__ == "__main__":
     update_intel()
-  
+    
+
