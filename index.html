@@ -4,55 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invincible Energy | Ops HUD</title>
+    <title>Invincible Energy | AI</title>
     <style>
-        :root { --bg: #020617; --gold: #FFD700; --blue: #38BDF8; --card: #0F172A; --text: #F1F5F9; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; padding-bottom: 100px; }
-        .logo-box { margin-top: 30px; width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--gold); padding: 5px; box-shadow: 0 0 30px rgba(255,215,0,0.2); }
-        .logo-img { width: 100%; height: 100%; border-radius: 50%; background: url('https://api.dicebear.com/7.x/initials/svg?seed=IE&backgroundColor=050a18&fontColor=ffd700') center/cover; }
-        .company { margin-top: 15px; font-weight: 900; letter-spacing: 4px; color: var(--gold); font-size: 1.2rem; text-transform: uppercase; }
-        .timer-box { width: 85%; background: var(--card); margin-top: 25px; padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        #countdown { font-size: 2.5rem; font-weight: bold; color: var(--gold); font-family: monospace; }
-        .intel-list { width: 90%; margin-top: 20px; }
-        .intel-card { background: var(--card); border-left: 4px solid var(--gold); padding: 20px; border-radius: 4px 12px 12px 4px; margin-bottom: 15px; border-right: 1px solid rgba(255,255,255,0.05); }
-        .tag { color: var(--blue); font-size: 0.7rem; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .btn-call { position: fixed; bottom: 25px; width: 85%; background: var(--gold); color: var(--bg); text-align: center; padding: 18px; border-radius: 15px; text-decoration: none; font-weight: 900; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body { background: #050a18; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .logo { 
+            width: 100px; height: 100px; margin: 0 auto; border-radius: 50%; border: 3px solid #ffd700;
+            background: url('https://api.dicebear.com/9.x/initials/svg?seed=IE&backgroundColor=050a18&fontColor=ffd700') center/cover;
+        }
+        .card { background: #0a1329; padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 5px solid #ffd700; }
+        .tag { color: #ffd700; font-weight: bold; font-size: 12px; }
     </style>
 </head>
 <body>
-    <div class="logo-box"><div class="logo-img"></div></div>
-    <div class="company">Invincible Energy</div>
-    <div style="font-size: 0.6rem; opacity: 0.5; letter-spacing: 2px;">HQ INTELLIGENCE UNIT</div>
-    
-    <div class="timer-box">
-        <div style="font-size: 0.7rem; opacity: 0.6; margin-bottom: 5px;">NEXT MARKET SCAN</div>
-        <div id="countdown">10:00</div>
-    </div>
-
-    <div class="intel-list">
-        <div class="intel-card">
-            <span class="tag">[ SYSTEM STATUS ]</span>
-            <h3 style="margin: 0; font-size: 1.1rem;">Awaiting First Sync...</h3>
-            <p style="font-size: 0.85rem; opacity: 0.7; line-height: 1.4;">The AI agent is warming up. Real-time April 2026 data will appear here shortly.</p>
-        </div>
-        </div>
-
-    <a href="tel:YOUR_UNCLES_PHONE_NUMBER" class="btn-call">DIRECT OPERATIONS LINE</a>
+    <div class="logo"></div>
+    <h1>INVINCIBLE ENERGY</h1>
+    <div id="display">Awaiting AI Sync...</div>
 
     <script>
-        let time = 600; // 10 minutes in seconds
-        const timerElement = document.getElementById('countdown');
-        
-        setInterval(() => {
-            let minutes = Math.floor(time / 60);
-            let seconds = time % 60;
-            timerElement.innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-            
-            if (time <= 0) {
-                location.reload(); // Refresh page to get new data from the scraper
-            }
-            time--;
-        }, 1000);
+        async function loadIntel() {
+            try {
+                const res = await fetch('data/market_data.json?t=' + Date.now());
+                const data = await res.json();
+                const container = document.getElementById('display');
+                
+                if (data.length > 0) {
+                    container.innerHTML = data.map(item => `
+                        <div class="card">
+                            <div class="tag">[ ${item.tag} ]</div>
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) { console.error("Sync Error", e); }
+        }
+        setInterval(loadIntel, 5000);
+        loadIntel();
     </script>
 </body>
 </html>
