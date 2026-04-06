@@ -6,18 +6,18 @@
     <style>
         :root { --cyan: #00d4ff; --bg: #05070a; --card: #0a0c10; --up: #00ff88; }
         body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 20px; }
-        .back-btn { color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 8px 15px; border-radius: 5px; display: inline-block; margin-bottom: 20px; }
-        .report { max-width: 600px; margin: auto; background: var(--card); border: 1px solid #222; border-radius: 15px; padding: 30px; border-top: 5px solid var(--cyan); }
+        .back-btn { color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 8px 15px; border-radius: 5px; display: inline-block; margin-bottom: 20px; font-weight: bold; }
+        .report { max-width: 600px; margin: auto; background: var(--card); border: 1px solid #222; border-radius: 15px; padding: 30px; border-top: 5px solid var(--cyan); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; text-align: center; }
-        .label { color: #888; font-size: 10px; text-transform: uppercase; }
-        .value { color: var(--up); font-size: 20px; font-weight: bold; }
+        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #111; }
+        .label { color: #888; font-size: 10px; text-transform: uppercase; margin-bottom: 5px; }
+        .value { color: var(--up); font-size: 22px; font-weight: bold; }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-btn">← DASHBOARD</a>
     <div class="report">
-        <h1>NSW Wholesale Intel</h1>
+        <h1 style="color:var(--cyan)">NSW Wholesale Intel</h1>
         <div class="stat-grid">
             <div class="stat-box"><div class="label">Spot Price</div><div class="value">$83.76/MWh</div></div>
             <div class="stat-box"><div class="label">Grid Load</div><div class="value" style="color:#ff3333">HIGH</div></div>
@@ -26,3 +26,4 @@
     </div>
 </body>
 </html>
+
