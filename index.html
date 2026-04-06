@@ -3,39 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invincible HQ | Live Intel</title>
+    <title>Invincible Energy | Live Ops Portal</title>
     <style>
-        body { font-family: 'Courier New', Courier, monospace; background: #0a0a0a; color: #00ff00; padding: 20px; line-height: 1.6; }
-        .header-box { border-bottom: 2px solid #00ff00; margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .timer-text { font-weight: bold; color: #ff3e3e; text-transform: uppercase; font-size: 14px; }
-        .card { background: #161616; border: 1px solid #333; padding: 15px; border-radius: 4px; margin-bottom: 15px; transition: 0.3s; }
-        .card:hover { border-color: #00ff00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); }
-        .tag { font-weight: bold; font-size: 12px; background: #004400; padding: 2px 8px; display: inline-block; border-radius: 3px; }
-        a { text-decoration: none; color: inherit; }
-        hr { border: 0.5px solid #333; margin: 15px 0; }
+        :root {
+            --neon-blue: #00d4ff;
+            --solar-gold: #ffcc00;
+            --bg-dark: #0a0e14;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top right, #1a2a3a, #0a0e14);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo-area h1 { margin: 0; font-size: 24px; letter-spacing: 2px; color: var(--neon-blue); }
+        .logo-area span { font-size: 12px; color: #888; text-transform: uppercase; }
+
+        .sync-box { text-align: right; }
+        #timer { font-family: monospace; color: var(--solar-gold); font-size: 18px; font-weight: bold; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--neon-blue);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .tag {
+            font-size: 10px;
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--neon-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        h3 { margin: 15px 0 10px 0; color: #fff; }
+        p { font-size: 14px; color: #ccc; line-height: 1.5; }
+        
+        .status-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            box-shadow: 0 0 8px #00ff00;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-box">
-        <h2 style="margin:0;">SYSTEM_INTEL_FEED</h2>
-        <div id="timer" class="timer-text">Next Sync: 10:00</div>
+<div class="container">
+    <header>
+        <div class="logo-area">
+            <h1>INVINCIBLE ENERGY</h1>
+            <span><span class="status-dot"></span> Australia Operations Hub</span>
+        </div>
+        <div class="sync-box">
+            <div style="font-size: 10px; color: #888;">NEXT DATA UPDATE</div>
+            <div id="timer">10:00</div>
+        </div>
+    </header>
+
+    <div id="display" class="grid">
+        <p>Connecting to AEMO Data Streams...</p>
     </div>
+</div>
 
-    <div id="display">Initializing secure connection...</div>
-
-    <script>
-    let timeLeft = 600; // 10 minutes in seconds
+<script>
+    let timeLeft = 600; 
 
     function updateTimer() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        // Formats time as 00:00
-        document.getElementById('timer').innerText = `Next Sync: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        const mins = Math.floor(timeLeft / 60);
+        const secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         
         if (timeLeft <= 0) {
-            loadIntel(); // Refresh data
-            timeLeft = 600; // Reset to 10 mins
+            loadIntel();
+            timeLeft = 600;
         } else {
             timeLeft--;
         }
@@ -43,38 +122,29 @@
 
     async function loadIntel() {
         try {
+            // Using ?cache-bust to ensure we don't get old data
             const res = await fetch('data/market_data.json?t=' + Date.now());
             const data = await res.json();
             const container = document.getElementById('display');
 
-            if (data.length > 0) {
-                container.innerHTML = data.map(item => `
-                    <a href="${item.url}" target="_blank">
-                        <div class="card">
-                            <div class="tag">${item.tag}</div>
-                            <h3 style="margin: 10px 0;">${item.title}</h3>
-                            <p style="font-size: 14px; color: #ccc;">${item.desc}</p>
-                            <hr>
-                            <p style="font-size: 12px; opacity: 0.7;">${item.details}</p>
-                            <div style="margin-top: 10px; font-weight: bold; font-size: 13px;">
-                                ACCESS FULL REPORT >
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
-            }
+            container.innerHTML = data.map(item => `
+                <div class="card">
+                    <span class="tag">${item.tag}</span>
+                    <h3>${item.title}</h3>
+                    <p>${item.desc}</p>
+                    <div style="margin-top:15px; font-size:12px; color: var(--solar-gold);">
+                        ${item.details}
+                    </div>
+                </div>
+            `).join('');
         } catch (e) {
-            console.error("Sync Error", e);
-            document.getElementById('display').innerHTML = "ERROR: UNABLE TO REACH DATA SOURCE";
+            document.getElementById('display').innerHTML = "<p>Data Offline. Check Scraper status.</p>";
         }
     }
 
-    // Run timer every second
     setInterval(updateTimer, 1000);
-    
-    // Initial data load
     loadIntel();
-    </script>
+</script>
+
 </body>
 </html>
-
