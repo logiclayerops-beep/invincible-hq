@@ -1,26 +1,53 @@
-async function loadIntel() {
-    try {
-        const res = await fetch('data/market_data.json?t=' + Date.now());
-        const data = await res.json();
-        const container = document.getElementById('display');
-        
-        if (data.length > 0) {
-            container.innerHTML = data.map(item => `
-                <a href="${item.url}" target="_blank" style="text-decoration: none; color: inherit;">
-                    <div class="card" style="cursor: pointer; transition: transform 0.2s;">
-                        <div class="tag">[ ${item.tag} ]</div>
-                        <h3 style="margin: 10px 0;">${item.title}</h3>
-                        <p style="font-size: 14px; opacity: 0.9;">${item.desc}</p>
-                        <hr style="border: 0.5px solid rgba(255,215,0,0.2); margin: 10px 0;">
-                        <p style="font-size: 12px; color: #ffd700;">${item.details}</p>
-                        <div style="margin-top: 10px; font-weight: bold; font-size: 11px; text-transform: uppercase;">
-                            View Full Operations Report →
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invincible HQ</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; padding: 20px; }
+        .card { background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .tag { color: #00ff00; font-weight: bold; font-size: 12px; }
+        a { text-decoration: none; color: inherit; }
+    </style>
+</head>
+<body>
+
+    <h2>Market Intel</h2>
+    <div id="display">Loading intelligence data...</div>
+
+    <script>
+    async function loadIntel() {
+        try {
+            // Added the full path logic
+            const res = await fetch('data/market_data.json?t=' + Date.now());
+            const data = await res.json();
+            const container = document.getElementById('display');
+
+            if (data.length > 0) {
+                container.innerHTML = data.map(item => `
+                    <a href="${item.url}" target="_blank">
+                        <div class="card" style="cursor: pointer;">
+                            <div class="tag">[ ${item.tag} ]</div>
+                            <h3 style="margin: 10px 0;">${item.title}</h3>
+                            <p style="font-size: 14px; opacity: 0.8;">${item.desc}</p>
+                            <hr style="border: 0.5px solid rgba(255,255,255,0.1);">
+                            <p style="font-size: 12px; color: #aaa;">${item.details}</p>
+                            <div style="margin-top: 10px; font-weight: bold; color: #00ff00;">
+                                View Full Operations Report →
+                            </div>
                         </div>
-                    </div>
-                </a>
-            `).join('');
+                    </a>
+                `).join('');
+            }
+        } catch (e) {
+            console.error("Sync Error", e);
+            document.getElementById('display').innerHTML = "Failed to load data. Make sure scraper.py has run and created the data folder.";
         }
-    } catch (e) { console.error("Sync Error", e); }
-}
-setInterval(loadIntel, 10000); // Check for updates every 10 seconds
-loadIntel();
+    }
+
+    setInterval(loadIntel, 10000); 
+    loadIntel();
+    </script>
+</body>
+</html>
