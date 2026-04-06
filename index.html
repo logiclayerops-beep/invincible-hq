@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invincible Energy | Ops Hub</title>
+    <style>
+        :root { --up: #00ff88; --down: #ff3333; --cyan: #00d4ff; --bg: #05070a; }
+        body { background: var(--bg); color: white; font-family: sans-serif; padding: 20px; }
+        .header { display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding-bottom: 20px; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        .card { background: rgba(255,255,255,0.02); border: 1px solid #222; border-radius: 15px; padding: 25px; cursor: pointer; position: relative; transition: 0.3s; }
+        .card:hover { border-color: var(--cyan); transform: scale(1.02); background: rgba(0,212,255,0.05); }
+        .tick { position: absolute; top: 20px; right: 20px; font-weight: bold; font-size: 22px; }
+        .price { font-size: 32px; font-weight: bold; margin: 10px 0; }
+        .risk-bar { width: 100%; height: 4px; background: #111; margin-top: 15px; border-radius: 2px; }
+        .risk-fill { height: 100%; border-radius: 2px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="color:var(--cyan); margin:0;">INVINCIBLE <span style="color:white">ENERGY</span></h1>
+        <div id="clock" style="color:var(--up); font-family:monospace; font-size:18px;">00:00:00</div>
+    </div>
+    <div id="dashboard" class="grid"></div>
+    <script>
+        async function load() {
+            const res = await fetch('data/market_data.json?v=' + Date.now());
+            const data = await res.json();
+            const container = document.getElementById('dashboard');
+            container.innerHTML = data.map(item => `
+                <div class="card" onclick="window.location.href='${item.file}'">
+                    <div class="tick" style="color: ${item.trend === 'up' ? 'var(--up)' : 'var(--down)'}">
+                        ${item.trend === 'up' ? '✓' : '✕'}
+                    </div>
+                    <div style="font-size: 11px; color: #888; text-transform: uppercase;">${item.tag}</div>
+                    <div class="price">${item.title}</div>
+                    <p style="font-size: 13px; color: #aaa;">${item.desc}</p>
+                    <div class="risk-bar">
+                        <div class="risk-fill" style="width: ${item.risk}%; background: ${item.risk > 70 ? 'var(--down)' : 'var(--cyan)'}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        load();
+    </script>
+</body>
+</html>
