@@ -1,1 +1,12 @@
-{}
+[
+    {
+        "tag": "MARKET ALERT",
+        "title": "Grid Price Surge",
+        "desc": "Wholesale rates in NSW/VIC have spiked 12% this morning. AI recommends shifting battery discharge to 6:00 PM peak."
+    },
+    {
+        "tag": "SYSTEM STATUS",
+        "title": "VPP Sync Active",
+        "desc": "Virtual Power Plant nodes are reporting 98.5% efficiency. All systems go for overnight arbitrage."
+    }
+]
