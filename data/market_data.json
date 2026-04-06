@@ -1,16 +1,30 @@
 [
     {
-        "tag": "MARKET ALERT",
-        "title": "Grid Price Surge",
-        "desc": "Wholesale rates in NSW/VIC have spiked 12% this morning.",
-        "details": "High demand in the evening peak is driving prices to $300/MWh. Recommend manual VPP discharge.",
-        "url": "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem"
+        "tag": "FINANCIAL: STC",
+        "title": "STC Spot: $39.65",
+        "desc": "Residential rebate index is stable. No immediate price risk for customer quotes.",
+        "details": "Market Status: LIQUID | Sync: 01:37",
+        "url": "https://www.cleanenergyregulator.gov.au/"
     },
     {
-        "tag": "SYSTEM STATUS",
-        "title": "VPP Sync Active",
-        "desc": "Virtual Power Plant nodes are reporting 98.5% efficiency.",
-        "details": "Sync completed across 450 residential nodes. Arbitrage protocol engaged for midnight charging.",
-        "url": "https://invincible.energy/vpp-status"
+        "tag": "OPS: WHOLESALE",
+        "title": "NSW Spot: $83.76/MWh",
+        "desc": "Wholesale rates are slightly lower. Ideal window for battery charging cycles.",
+        "details": "Region: NSW1 | Trend: STABLE",
+        "url": "https://aemo.com.au/"
+    },
+    {
+        "tag": "COMMERCIAL: LGC",
+        "title": "LGC Spot: $3.10",
+        "desc": "Large-scale certificates facing oversupply. Commercial margins remains strong.",
+        "details": "Weekly Range: $3.05 - $3.50",
+        "url": "https://coremarkets.co/"
+    },
+    {
+        "tag": "GRID: STABILITY",
+        "title": "Freq: 50.01 Hz",
+        "desc": "NEM Grid is healthy. Renewable penetration reached 46% this month.",
+        "details": "Status: NORMAL | VPP Nodes Standby",
+        "url": "https://open-nem.org/"
     }
 ]
