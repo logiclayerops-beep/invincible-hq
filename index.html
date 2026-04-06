@@ -1,45 +1,26 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invincible Energy | AI</title>
-    <style>
-        body { background: #050a18; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .logo { 
-            width: 100px; height: 100px; margin: 0 auto; border-radius: 50%; border: 3px solid #ffd700;
-            background: url('https://api.dicebear.com/9.x/initials/svg?seed=IE&backgroundColor=050a18&fontColor=ffd700') center/cover;
-        }
-        .card { background: #0a1329; padding: 20px; border-radius: 15px; margin-top: 20px; border-left: 5px solid #ffd700; }
-        .tag { color: #ffd700; font-weight: bold; font-size: 12px; }
-    </style>
-</head>
-<body>
-    <div class="logo"></div>
-    <h1>INVINCIBLE ENERGY</h1>
-    <div id="display">Awaiting AI Sync...</div>
-
-    <script>
-        async function loadIntel() {
-            try {
-                const res = await fetch('data/market_data.json?t=' + Date.now());
-                const data = await res.json();
-                const container = document.getElementById('display');
-                
-                if (data.length > 0) {
-                    container.innerHTML = data.map(item => `
-                        <div class="card">
-                            <div class="tag">[ ${item.tag} ]</div>
-                            <h3>${item.title}</h3>
-                            <p>${item.desc}</p>
+async function loadIntel() {
+    try {
+        const res = await fetch('data/market_data.json?t=' + Date.now());
+        const data = await res.json();
+        const container = document.getElementById('display');
+        
+        if (data.length > 0) {
+            container.innerHTML = data.map(item => `
+                <a href="${item.url}" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="card" style="cursor: pointer; transition: transform 0.2s;">
+                        <div class="tag">[ ${item.tag} ]</div>
+                        <h3 style="margin: 10px 0;">${item.title}</h3>
+                        <p style="font-size: 14px; opacity: 0.9;">${item.desc}</p>
+                        <hr style="border: 0.5px solid rgba(255,215,0,0.2); margin: 10px 0;">
+                        <p style="font-size: 12px; color: #ffd700;">${item.details}</p>
+                        <div style="margin-top: 10px; font-weight: bold; font-size: 11px; text-transform: uppercase;">
+                            View Full Operations Report →
                         </div>
-                    `).join('');
-                }
-            } catch (e) { console.error("Sync Error", e); }
+                    </div>
+                </a>
+            `).join('');
         }
-        setInterval(loadIntel, 5000);
-        loadIntel();
-    </script>
-</body>
-</html>
+    } catch (e) { console.error("Sync Error", e); }
+}
+setInterval(loadIntel, 10000); // Check for updates every 10 seconds
+loadIntel();
