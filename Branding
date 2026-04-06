@@ -1,0 +1,7 @@
+body {
+    background-image: 
+        linear-gradient(rgba(10, 14, 20, 0.8), rgba(10, 14, 20, 0.8)),
+        url('https://images.unsplash.com/photo-1509391366360-feaffa603b1b?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-attachment: fixed;
+}
