@@ -3,23 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invincible HQ</title>
+    <title>Invincible HQ | Live Intel</title>
     <style>
-        body { font-family: sans-serif; background: #121212; color: white; padding: 20px; }
-        .card { background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .tag { color: #00ff00; font-weight: bold; font-size: 12px; }
+        body { font-family: 'Courier New', Courier, monospace; background: #0a0a0a; color: #00ff00; padding: 20px; line-height: 1.6; }
+        .header-box { border-bottom: 2px solid #00ff00; margin-bottom: 20px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .timer-text { font-weight: bold; color: #ff3e3e; text-transform: uppercase; font-size: 14px; }
+        .card { background: #161616; border: 1px solid #333; padding: 15px; border-radius: 4px; margin-bottom: 15px; transition: 0.3s; }
+        .card:hover { border-color: #00ff00; box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); }
+        .tag { font-weight: bold; font-size: 12px; background: #004400; padding: 2px 8px; display: inline-block; border-radius: 3px; }
         a { text-decoration: none; color: inherit; }
+        hr { border: 0.5px solid #333; margin: 15px 0; }
     </style>
 </head>
 <body>
 
-    <h2>Market Intel</h2>
-    <div id="display">Loading intelligence data...</div>
+    <div class="header-box">
+        <h2 style="margin:0;">SYSTEM_INTEL_FEED</h2>
+        <div id="timer" class="timer-text">Next Sync: 10:00</div>
+    </div>
+
+    <div id="display">Initializing secure connection...</div>
 
     <script>
+    let timeLeft = 600; // 10 minutes in seconds
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        // Formats time as 00:00
+        document.getElementById('timer').innerText = `Next Sync: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        if (timeLeft <= 0) {
+            loadIntel(); // Refresh data
+            timeLeft = 600; // Reset to 10 mins
+        } else {
+            timeLeft--;
+        }
+    }
+
     async function loadIntel() {
         try {
-            // Added the full path logic
             const res = await fetch('data/market_data.json?t=' + Date.now());
             const data = await res.json();
             const container = document.getElementById('display');
@@ -27,14 +50,14 @@
             if (data.length > 0) {
                 container.innerHTML = data.map(item => `
                     <a href="${item.url}" target="_blank">
-                        <div class="card" style="cursor: pointer;">
-                            <div class="tag">[ ${item.tag} ]</div>
+                        <div class="card">
+                            <div class="tag">${item.tag}</div>
                             <h3 style="margin: 10px 0;">${item.title}</h3>
-                            <p style="font-size: 14px; opacity: 0.8;">${item.desc}</p>
-                            <hr style="border: 0.5px solid rgba(255,255,255,0.1);">
-                            <p style="font-size: 12px; color: #aaa;">${item.details}</p>
-                            <div style="margin-top: 10px; font-weight: bold; color: #00ff00;">
-                                View Full Operations Report →
+                            <p style="font-size: 14px; color: #ccc;">${item.desc}</p>
+                            <hr>
+                            <p style="font-size: 12px; opacity: 0.7;">${item.details}</p>
+                            <div style="margin-top: 10px; font-weight: bold; font-size: 13px;">
+                                ACCESS FULL REPORT >
                             </div>
                         </div>
                     </a>
@@ -42,12 +65,16 @@
             }
         } catch (e) {
             console.error("Sync Error", e);
-            document.getElementById('display').innerHTML = "Failed to load data. Make sure scraper.py has run and created the data folder.";
+            document.getElementById('display').innerHTML = "ERROR: UNABLE TO REACH DATA SOURCE";
         }
     }
 
-    setInterval(loadIntel, 10000); 
+    // Run timer every second
+    setInterval(updateTimer, 1000);
+    
+    // Initial data load
     loadIntel();
     </script>
 </body>
 </html>
+
