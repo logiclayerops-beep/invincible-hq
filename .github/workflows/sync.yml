@@ -1,0 +1,25 @@
+name: Sync Data
+on:
+  schedule:
+    - cron: '*/10 * * * *' # Runs every 10 minutes
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Run Scraper
+        run: python scraper.py
+      - name: Commit changes
+        run: |
+          git config --global user.name 'AI-Agent'
+          git config --global user.email 'agent@invincible.energy'
+          git add data/market_data.json
+          git commit -m "Auto-update market data" || exit 0
+          git push
+          
