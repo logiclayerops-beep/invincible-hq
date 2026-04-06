@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>STC Intelligence | Invincible</title>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Intel | Invincible</title>
     <style>
-        body { background: #05070a; color: white; font-family: sans-serif; padding: 40px; }
-        .back { color: #00d4ff; text-decoration: none; display: block; margin-bottom: 30px; font-weight: bold; }
-        .box { border: 1px solid #222; padding: 30px; border-radius: 20px; background: #0a0c10; max-width: 800px; }
+        :root { --cyan: #00d4ff; --bg: #05070a; --card: #0a0c10; --up: #00ff88; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .back-btn { color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 8px 15px; border-radius: 5px; display: inline-block; margin-bottom: 20px; }
+        .report { max-width: 600px; margin: auto; background: var(--card); border: 1px solid #222; border-radius: 15px; padding: 30px; border-top: 5px solid var(--cyan); }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; text-align: center; }
+        .label { color: #888; font-size: 10px; text-transform: uppercase; }
+        .value { color: var(--up); font-size: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back">← GO BACK</a>
-    <div class="box">
-        <h1 style="color:#00d4ff">STC Details</h1>
-        <p>This is where we talk about money for solar. It is all safe!</p>
+    <a href="index.html" class="back-btn">← DASHBOARD</a>
+    <div class="report">
+        <h1>STC Intelligence</h1>
+        <div class="stat-grid">
+            <div class="stat-box"><div class="label">Current Spot</div><div class="value">$39.65</div></div>
+            <div class="stat-box"><div class="label">Market Risk</div><div class="value" style="color:var(--up)">LOW</div></div>
+        </div>
+        <p style="color:#aaa; line-height:1.6;">STC market is currently pinned to the cap. No immediate price drop expected. Clearing house velocity remains high.</p>
     </div>
 </body>
 </html>
