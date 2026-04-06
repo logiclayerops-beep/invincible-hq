@@ -1,5 +1,28 @@
-<h1>Grid Stability Report</h1>
-<div class="stat-box"><div class="label">Frequency</div><div class="value">50.01 Hz</div></div>
-<div class="stat-box"><div class="label">Renewables</div><div class="value" style="color:var(--up)">48%</div></div>
-<p>NEM Grid frequency is within the safety envelope. High solar penetration detected.</p>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Intel | Invincible</title>
+    <style>
+        :root { --cyan: #00d4ff; --bg: #05070a; --card: #0a0c10; --up: #00ff88; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .back-btn { color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 8px 15px; border-radius: 5px; display: inline-block; margin-bottom: 20px; }
+        .report { max-width: 600px; margin: auto; background: var(--card); border: 1px solid #222; border-radius: 15px; padding: 30px; border-top: 5px solid var(--cyan); }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px; text-align: center; }
+        .label { color: #888; font-size: 10px; text-transform: uppercase; }
+        .value { color: var(--up); font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← DASHBOARD</a>
+    <div class="report">
+        <h1>Grid Stability Report</h1>
+        <div class="stat-grid">
+            <div class="stat-box"><div class="label">Frequency</div><div class="value">50.01 Hz</div></div>
+            <div class="stat-box"><div class="label">Renewables</div><div class="value" style="color:var(--up)">48%</div></div>
+        </div>
+        <p style="color:#aaa; line-height:1.6;">NEM Grid frequency is within the safety envelope. High solar penetration detected.</p>
+    </div>
+</body>
+</html>
